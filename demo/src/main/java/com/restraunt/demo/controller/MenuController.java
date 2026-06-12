@@ -26,4 +26,15 @@ public class MenuController {
 
         return menuService.getMenuItemsById(id);
     }
+
+    @GetMapping("/all-categories")
+    public List<String> getAllCategories(){
+
+        return menuService.getAllCategories();
+    }
+
+    @GetMapping("/category/{category}")
+    public List<MenuItem> getMenuItemsByCategory(@PathVariable String category){
+        return menuService.getMenuItemsByCategory(category);
+    }
 }

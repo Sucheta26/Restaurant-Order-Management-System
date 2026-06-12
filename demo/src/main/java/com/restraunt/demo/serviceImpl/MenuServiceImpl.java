@@ -26,4 +26,14 @@ public class MenuServiceImpl implements MenuService {
         return menuItemRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException("Menu item not found with id: "+id));
     }
+
+    @Override
+    public List<String> getAllCategories(){
+        return menuItemRepository.findAllCategories();
+    }
+
+    @Override
+    public List<MenuItem> getMenuItemsByCategory(String category){
+        return menuItemRepository.findByCategory(category);
+    }
 }

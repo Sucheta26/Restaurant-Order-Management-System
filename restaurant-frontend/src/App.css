@@ -137,3 +137,39 @@ body {
 
   font-size: 14px;
 }
+
+.category-section {
+
+  text-align: center;
+
+  margin-bottom: 25px;
+}
+
+.category-btn {
+
+  margin: 5px;
+
+  padding: 10px 20px;
+
+  border: none;
+
+  border-radius: 20px;
+
+  background-color: #ff9966;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: bold;
+}
+
+.category-btn:hover {
+
+  transform: scale(1.05);
+}
+
+.category-btn.active {
+
+  background-color: #ff5e62;
+}

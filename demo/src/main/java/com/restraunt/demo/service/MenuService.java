@@ -7,4 +7,6 @@ public interface MenuService {
 
     List<MenuItem> getAllMenuItems();
     MenuItem getMenuItemsById(Long id);
+    List<String> getAllCategories();
+    List<MenuItem> getMenuItemsByCategory(String category);
 }
