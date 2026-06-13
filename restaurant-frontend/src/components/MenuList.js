@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MenuService from "../services/MenuService";
 
-function MenuList() {
+function MenuList({setPage}) {
 
     const [menuItems, setMenuItems] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -68,6 +68,30 @@ function MenuList() {
             <h1 className="menu-title">
                 🍽️ Rahul's Flavor Junction Menu
             </h1>
+
+            <div className="menu-actions">
+
+                <button
+                    className="back-btn"
+                    onClick={() => setPage("home")}
+                >
+                    🏠 Home
+                </button>
+
+                <button
+                    className="logout-btn"
+                    onClick={() => {
+
+                        localStorage.removeItem("user");
+
+                        setPage("home");
+                    }}
+                >
+                    🚪 Logout
+                </button>
+
+            </div>
+
 
             <div className="category-section">
 

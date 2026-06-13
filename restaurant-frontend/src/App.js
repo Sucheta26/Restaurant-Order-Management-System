@@ -1,49 +1,70 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Home from "./components/Home";
+import CustomerLogin from "./components/CustomerLogin";
+import EmployeeLogin from "./components/EmployeeLogin";
+import CustomerSignup from "./components/CustomerSignup";
+import EmployeeSignup from "./components/EmployeeSignup";
 import MenuList from "./components/MenuList";
 import "./App.css";
 
 function App() {
 
-    const [showMenu, setShowMenu] = useState(false);
+    const [page, setPage] = useState(() => {
+
+        const user = localStorage.getItem("user");
+        const employee = localStorage.getItem("employee");
+
+        if (user) {
+            return "menu";
+        }
+
+        if (employee) {
+            return "employee-portal";
+        }
+
+        return "home";
+    });
 
     return (
         <div>
 
-            {!showMenu ? (
+            {page === "home" &&
+                <Home setPage={setPage} />
+            }
 
-                <div className="home-container">
+            {page === "customer-login" &&
+                <CustomerLogin setPage={setPage} />
+            }
 
-                    <h1 className="restaurant-title">
-                        🍽️ The Rahul Bistro 🍽️
-                    </h1>
+            {page === "employee-login" &&
+                <EmployeeLogin setPage={setPage} />
+            }
 
-                    <h2 className="restaurant-subtitle">
-                        Fresh Food • Fast Service • Great Taste
-                    </h2>
+            {page === "customer-signup" &&
+                <CustomerSignup setPage={setPage} />
+            }
+
+            {page === "employee-signup" &&
+                <EmployeeSignup setPage={setPage} />
+            }
+
+            {page === "menu" &&
+                <MenuList setPage={setPage} />
+            }
+
+            {page === "employee-portal" &&
+                <div className="portal-container">
+                    <h1>Employee Portal</h1>
+                    <p>Coming Soon...</p>
 
                     <button
-                        className="menu-button"
-                        onClick={() => setShowMenu(true)}
+                        className="back-btn"
+                        onClick={() => setPage("home")}
                     >
-                        View Menu
+                        Back To Home
                     </button>
-
                 </div>
-
-            ) : (
-
-                <>
-                    <button
-                        className="back-button"
-                        onClick={() => setShowMenu(false)}
-                    >
-                        ← Back
-                    </button>
-
-                    <MenuList />
-                </>
-
-            )}
+            }
 
         </div>
     );

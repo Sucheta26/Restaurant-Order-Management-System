@@ -1,11 +1,13 @@
 package com.restraunt.demo.entity;
 
 
+import com.restraunt.demo.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -24,7 +26,14 @@ public class Order {
 
     private BigDecimal totalAmount;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL
+    )
+    private List<OrderItem> orderItems;
 }
