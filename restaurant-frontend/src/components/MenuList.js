@@ -171,6 +171,13 @@ function MenuList({setPage}) {
                 </button>
 
                 <button
+                    className="cart-btn"
+                    onClick={() => setPage("my-orders")}
+                >
+                    📦 My Orders
+                </button>
+
+                <button
                     className="logout-btn"
                     onClick={() => {
 
@@ -264,12 +271,20 @@ function MenuList({setPage}) {
                             <td>
 
                                 <button
-                                    className="add-cart-btn"
+                                    className={
+                                        item.available
+                                            ? "cart-btn"
+                                            : "cart-btn-disabled"
+                                    }
                                     onClick={() => addToCart(item)}
+                                    disabled={!item.available}
                                 >
-                                    Add To Cart
+                                    {
+                                        item.available
+                                            ? "Add To Cart"
+                                            : "Unavailable"
+                                    }
                                 </button>
-
                             </td>
 
                         </tr>

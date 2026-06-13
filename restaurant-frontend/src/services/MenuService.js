@@ -27,6 +27,13 @@ class MenuService {
     getMenuItemsByCategory(category) {
         return axios.get(`${API_URL}/category/${category}`);
     }
+
+    updateAvailability(id, available) {
+
+        return axios.put(
+            `http://localhost:8080/api/menu/${id}/availability?available=${available}`
+        );
+    }
 }
 
 export default new MenuService();

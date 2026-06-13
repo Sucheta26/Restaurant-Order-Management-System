@@ -36,4 +36,13 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuItem> getMenuItemsByCategory(String category){
         return menuItemRepository.findByCategory(category);
     }
+
+    @Override
+    public MenuItem updateAvailability(Long id, Boolean available){
+        MenuItem menuItem = menuItemRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Menu item not found"));
+
+        menuItem.setAvailable(available);
+        return menuItemRepository.save(menuItem);
+    }
 }

@@ -45,15 +45,30 @@ function EmployeeOrders({ setPage }) {
 
                 console.error(error);
 
-                alert("Unable to update order status");
+                if (error.response?.data?.message) {
+                    alert(error.response.data.message);
+                } else {
+                    alert("Unable to update order status");
+                }
             });
     };
 
-    const logout = () => {
+    const getNextStatus = (currentStatus) => {
 
-        localStorage.removeItem("employee");
+        switch (currentStatus) {
 
-        setPage("home");
+            case "PLACED":
+                return "PREPARING";
+
+            case "PREPARING":
+                return "READY";
+
+            case "READY":
+                return "DELIVERED";
+
+            default:
+                return null;
+        }
     };
 
     return (
@@ -68,16 +83,11 @@ function EmployeeOrders({ setPage }) {
 
                 <button
                     className="back-btn"
-                    onClick={() => setPage("home")}
+                    onClick={() =>
+                        setPage("employee-dashboard")
+                    }
                 >
-                    🏠 Home
-                </button>
-
-                <button
-                    className="logout-btn"
-                    onClick={logout}
-                >
-                    🚪 Logout
+                    ⬅ Dashboard
                 </button>
 
             </div>
@@ -101,9 +111,9 @@ function EmployeeOrders({ setPage }) {
                                 <th>Order ID</th>
                                 <th>Customer</th>
                                 <th>Total</th>
-                                <th>Status</th>
+                                <th>Current Status</th>
                                 <th>Items</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
 
                             </thead>
@@ -131,7 +141,17 @@ function EmployeeOrders({ setPage }) {
                                         </td>
 
                                         <td>
-                                            {order.status}
+
+                                            <span
+                                                className={
+                                                    order.status === "DELIVERED"
+                                                        ? "delivered-badge"
+                                                        : ""
+                                                }
+                                            >
+                                                {order.status}
+                                            </span>
+
                                         </td>
 
                                         <td>
@@ -149,9 +169,7 @@ function EmployeeOrders({ setPage }) {
                                                                 "Menu Item"
                                                             }
 
-                                                            {" "}
-                                                            x
-                                                            {" "}
+                                                            {" x "}
                                                             {item.quantity}
 
                                                         </div>
@@ -168,41 +186,40 @@ function EmployeeOrders({ setPage }) {
 
                                         <td>
 
-                                            <button
-                                                className="status-btn"
-                                                onClick={() =>
-                                                    updateStatus(
-                                                        order.id,
-                                                        "PREPARING"
-                                                    )
-                                                }
-                                            >
-                                                PREPARING
-                                            </button>
+                                            {
+                                                order.status === "DELIVERED" ?
 
-                                            <button
-                                                className="status-btn"
-                                                onClick={() =>
-                                                    updateStatus(
-                                                        order.id,
-                                                        "READY"
+                                                    (
+                                                        <span
+                                                            className="delivered-badge"
+                                                        >
+                                                            ✅ Completed
+                                                        </span>
                                                     )
-                                                }
-                                            >
-                                                READY
-                                            </button>
 
-                                            <button
-                                                className="status-btn"
-                                                onClick={() =>
-                                                    updateStatus(
-                                                        order.id,
-                                                        "DELIVERED"
+                                                    :
+
+                                                    (
+                                                        <button
+                                                            className="status-btn"
+                                                            onClick={() =>
+                                                                updateStatus(
+                                                                    order.id,
+                                                                    getNextStatus(
+                                                                        order.status
+                                                                    )
+                                                                )
+                                                            }
+                                                        >
+                                                            Move To {" "}
+                                                            {
+                                                                getNextStatus(
+                                                                    order.status
+                                                                )
+                                                            }
+                                                        </button>
                                                     )
-                                                }
-                                            >
-                                                DELIVERED
-                                            </button>
+                                            }
 
                                         </td>
 

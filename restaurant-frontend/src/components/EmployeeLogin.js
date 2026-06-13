@@ -24,7 +24,7 @@ function EmployeeLogin({ setPage }) {
                 JSON.stringify(response.data)
             );
 
-            setPage("employee-portal");
+            setPage("employee-dashboard");
 
         } catch (error) {
 

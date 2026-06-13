@@ -9,4 +9,5 @@ public interface MenuService {
     MenuItem getMenuItemsById(Long id);
     List<String> getAllCategories();
     List<MenuItem> getMenuItemsByCategory(String category);
+    MenuItem updateAvailability(Long id, Boolean available);
 }

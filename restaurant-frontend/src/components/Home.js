@@ -73,12 +73,18 @@ function Home({ setPage }) {
 
                 {employee && (
                     <button
-                        className="home-btn"
-                        onClick={() =>
-                            setPage("employee-portal")
-                        }
+                        className="portal-btn"
+                        onClick={() => {
+                            const employee = localStorage.getItem("employee");
+
+                            if(employee){
+                                setPage("employee-dashboard");
+                            } else {
+                                setPage("employee-login");
+                            }
+                        }}
                     >
-                        Employee Portal
+                        👨‍🍳 Employee Portal
                     </button>
                 )}
 

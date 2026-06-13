@@ -7,6 +7,7 @@ import com.restraunt.demo.entity.Order;
 import com.restraunt.demo.entity.OrderItem;
 import com.restraunt.demo.entity.User;
 import com.restraunt.demo.enums.OrderStatus;
+import com.restraunt.demo.exception.InvalidOrderStatusException;
 import com.restraunt.demo.exception.ResourceNotFoundException;
 import com.restraunt.demo.repository.MenuItemRepository;
 import com.restraunt.demo.repository.OrderRepository;
@@ -122,6 +123,24 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Order not found with id: " + orderId));
+
+        OrderStatus currentStatus = order.getStatus();
+
+        if(order.getStatus() == OrderStatus.DELIVERED){
+            throw new InvalidOrderStatusException("Delivered orders cannot be modified");
+        }
+
+        boolean validTransitions =
+                        (currentStatus == OrderStatus.PLACED && status == OrderStatus.PREPARING)
+                ||
+                        (currentStatus == OrderStatus.PREPARING && status == OrderStatus.READY)
+                ||
+                        (currentStatus == OrderStatus.READY && status == OrderStatus.DELIVERED);
+
+        if(!validTransitions){
+            throw new InvalidOrderStatusException(" Invalid status transition from " + currentStatus  +
+                    " to " +status);
+        }
 
         order.setStatus(status);
 

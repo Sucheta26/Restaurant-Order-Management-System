@@ -439,3 +439,175 @@ body {
 
   opacity: 0.9;
 }
+
+.status-badge {
+
+  background: #8B4513;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.cart-btn {
+
+  background: #D2691E;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cart-btn:hover {
+
+  opacity: 0.9;
+}
+
+.cart-btn-disabled {
+
+  background-color: #bdbdbd;
+  color: #666;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: not-allowed;
+  font-weight: bold;
+  opacity: 0.8;
+}
+.dashboard-container {
+
+  text-align: center;
+  padding: 40px;
+}
+
+.dashboard-title {
+
+  color: #6d4c41;
+  margin-bottom: 40px;
+}
+
+.dashboard-cards {
+
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.dashboard-card {
+
+  width: 280px;
+  padding: 25px;
+  background: white;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  transition: 0.3s;
+}
+
+.dashboard-card:hover {
+
+  transform: translateY(-5px);
+}
+
+.enable-btn {
+
+  background: green;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.disable-btn {
+
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.portal-btn {
+
+  background: linear-gradient(
+          135deg,
+          #8B4513,
+          #D2691E
+  );
+
+  color: white;
+  border: none;
+
+  padding: 15px 30px;
+
+  border-radius: 12px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  min-width: 250px;
+
+  margin: 10px;
+}
+
+.portal-btn:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 6px 15px rgba(
+          0,
+          0,
+          0,
+          0.25
+  );
+}
+
+.portal-buttons {
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  margin-top: 30px;
+}
+
+.status-btn {
+
+  background: #8B4513;
+  color: white;
+
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.status-btn:hover {
+
+  transform: translateY(-2px);
+}
+
+.delivered-badge {
+
+  color: green;
+
+  font-weight: bold;
+}

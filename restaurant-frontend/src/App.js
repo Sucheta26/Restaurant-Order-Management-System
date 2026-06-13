@@ -6,6 +6,9 @@ import CustomerSignup from "./components/CustomerSignup";
 import EmployeeSignup from "./components/EmployeeSignup";
 import MenuList from "./components/MenuList";
 import EmployeeOrders from "./components/EmployeeOrders";
+import MyOrders from "./components/MyOrders";
+import EmployeeDashboard from "./components/EmployeeDashboard";
+import EmployeeMenu from "./components/EmployeeMenu";
 import "./App.css";
 
 function App() {
@@ -20,7 +23,7 @@ function App() {
         }
 
         if (employee) {
-            return "employee-portal";
+            return "employee-dashboard";
         }
 
         return "home";
@@ -54,8 +57,28 @@ function App() {
                 <MenuList setPage={setPage} />
             }
 
-            {page === "employee-portal" &&
-                <EmployeeOrders setPage={setPage} />
+            {page === "my-orders" &&
+                <MyOrders
+                    setPage={setPage}
+                />
+            }
+
+            {page === "employee-dashboard" &&
+                <EmployeeDashboard
+                    setPage={setPage}
+                />
+            }
+
+            {page === "employee-orders" &&
+                <EmployeeOrders
+                    setPage={setPage}
+                />
+            }
+
+            {page === "employee-menu" &&
+                <EmployeeMenu
+                    setPage={setPage}
+                />
             }
 
         </div>

@@ -37,4 +37,9 @@ public class MenuController {
     public List<MenuItem> getMenuItemsByCategory(@PathVariable String category){
         return menuService.getMenuItemsByCategory(category);
     }
+
+    @PutMapping("/{id}/availability")
+    public MenuItem updateAvailability(@PathVariable Long id, @RequestParam Boolean available){
+        return menuService.updateAvailability(id, available);
+    }
 }
