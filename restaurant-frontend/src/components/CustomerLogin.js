@@ -59,16 +59,23 @@ function CustomerLogin({ setPage }) {
                 }
             />
 
-            <button onClick={login}>
-                Login
-            </button>
+            <div className="button-group">
 
-            <button
-                className="back-btn"
-                onClick={() => setPage("home")}
-            >
-                ← Back
-            </button>
+                <button
+                    className="login-btn"
+                    onClick={login}
+                >
+                    Login
+                </button>
+
+                <button
+                    className="secondary-btn"
+                    onClick={() => setPage("home")}
+                >
+                    ← Back
+                </button>
+
+            </div>
 
             <p>
                 New customer?

@@ -5,14 +5,15 @@ import com.restraunt.demo.dto.OrderRequestDto;
 import com.restraunt.demo.entity.MenuItem;
 import com.restraunt.demo.entity.Order;
 import com.restraunt.demo.entity.OrderItem;
+import com.restraunt.demo.entity.User;
 import com.restraunt.demo.enums.OrderStatus;
 import com.restraunt.demo.exception.ResourceNotFoundException;
 import com.restraunt.demo.repository.MenuItemRepository;
 import com.restraunt.demo.repository.OrderRepository;
+import com.restraunt.demo.repository.UserRepository;
 import com.restraunt.demo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final MenuItemRepository menuItemRepository;
+    private final UserRepository userRepository;
 
     /*@Override
     public Order createOrder(OrderRequestDto orderRequestDto){
@@ -64,7 +66,14 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderItem> orderItems = new ArrayList<>();
 
-        order.setCustomerName(requestDto.getCustomerName());
+        User customer =
+                userRepository
+                        .findById(
+                                requestDto.getCustomerId())
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Customer not found"));
+        order.setCustomer(customer);
 
         BigDecimal grandTotal = BigDecimal.ZERO;
 
@@ -95,6 +104,27 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(grandTotal);
         order.setStatus(OrderStatus.PLACED);
         order.setCreatedAt(LocalDateTime.now());
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+
+        return orderRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public Order updateOrderStatus(
+            Long orderId,
+            OrderStatus status) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Order not found with id: " + orderId));
+
+        order.setStatus(status);
+
         return orderRepository.save(order);
     }
 }

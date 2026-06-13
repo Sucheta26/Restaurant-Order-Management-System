@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderRequestDto {
 
-    private String customerName;
+    private Long customerId;
 
     private List<OrderItemRequest> items;
 }

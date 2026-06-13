@@ -1,7 +1,33 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/orders";
+const ORDER_API_BASE_URL = "http://localhost:8080/api/order";
 
-export const createOrder = (orderData) => {
-    return axios.post(BASE_URL, orderData);
-};
+class OrderService {
+
+    createOrder(orderRequest) {
+        return axios.post(
+            `${ORDER_API_BASE_URL}/save`,
+            orderRequest
+        );
+    }
+
+    getCustomerOrders(customerId) {
+        return axios.get(
+            `${ORDER_API_BASE_URL}/customer/${customerId}`
+        );
+    }
+
+    getAllOrders() {
+        return axios.get(
+            `${ORDER_API_BASE_URL}/all-orders`
+        );
+    }
+
+    updateOrderStatus(orderId, status) {
+        return axios.put(
+            `${ORDER_API_BASE_URL}/${orderId}/status?status=${status}`
+        );
+    }
+}
+
+export default new OrderService();

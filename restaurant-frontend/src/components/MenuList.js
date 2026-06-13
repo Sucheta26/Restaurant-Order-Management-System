@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MenuService from "../services/MenuService";
+import OrderService from "../services/OrderService";
 
 function MenuList({setPage}) {
 
     const [menuItems, setMenuItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
 
@@ -58,6 +60,96 @@ function MenuList({setPage}) {
 
                 console.error(error);
 
+            });
+
+
+    };
+
+    const addToCart = (item) => {
+
+        const existingItem = cartItems.find(
+            cartItem => cartItem.id === item.id
+        );
+
+        if (existingItem) {
+
+            setCartItems(
+                cartItems.map(cartItem =>
+                    cartItem.id === item.id
+                        ? {
+                            ...cartItem,
+                            quantity: cartItem.quantity + 1
+                        }
+                        : cartItem
+                )
+            );
+
+        } else {
+
+            setCartItems([
+                ...cartItems,
+                {
+                    ...item,
+                    quantity: 1
+                }
+            ]);
+
+        }
+    };
+
+    const removeFromCart = (id) => {
+
+        setCartItems(
+            cartItems.filter(
+                item => item.id !== id
+            )
+        );
+    };
+
+    const calculateTotal = () => {
+
+        return cartItems.reduce(
+            (total, item) =>
+                total + (item.price * item.quantity),
+            0
+        );
+    };
+
+    const placeOrder = () => {
+
+        const user = JSON.parse(
+            localStorage.getItem("user")
+        );
+
+        const orderRequest = {
+
+            customerId: user.id,
+
+            items: cartItems.map(item => ({
+                menuItemId: item.id,
+                quantity: item.quantity
+            }))
+        };
+
+        OrderService.createOrder(orderRequest)
+
+            .then(() => {
+
+                alert(
+                    "Order placed successfully!"
+                );
+
+                setCartItems([]);
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Unable to place order"
+                );
             });
     };
 
@@ -134,6 +226,7 @@ function MenuList({setPage}) {
                     <th>Price</th>
                     <th>Category</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
 
@@ -152,19 +245,30 @@ function MenuList({setPage}) {
 
                             <td>
 
-                                <span
-                                    className={
-                                        item.available
-                                            ? "available"
-                                            : "unavailable"
-                                    }
+    <span
+        className={
+            item.available
+                ? "available"
+                : "unavailable"
+        }
+    >
+        {
+            item.available
+                ? "Available"
+                : "Unavailable"
+        }
+    </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    className="add-cart-btn"
+                                    onClick={() => addToCart(item)}
                                 >
-                                    {
-                                        item.available
-                                            ? "Available"
-                                            : "Unavailable"
-                                    }
-                                </span>
+                                    Add To Cart
+                                </button>
 
                             </td>
 
@@ -176,6 +280,92 @@ function MenuList({setPage}) {
                 </tbody>
 
             </table>
+
+            <div className="cart-container">
+
+                <h2>
+                    🛒 Cart
+                </h2>
+
+                {
+                    cartItems.length === 0 ?
+
+                        <p>
+                            No items added.
+                        </p>
+
+                        :
+
+                        <>
+                            <table className="menu-table">
+
+                                <thead>
+
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Remove</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                {
+                                    cartItems.map(item => (
+
+                                        <tr key={item.id}>
+
+                                            <td>{item.name}</td>
+
+                                            <td>
+                                                {item.quantity}
+                                            </td>
+
+                                            <td>
+                                                ₹ {item.price}
+                                            </td>
+
+                                            <td>
+
+                                                <button
+                                                    className="remove-btn"
+                                                    onClick={() =>
+                                                        removeFromCart(
+                                                            item.id
+                                                        )
+                                                    }
+                                                >
+                                                    Remove
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                    ))
+                                }
+
+                                </tbody>
+
+                            </table>
+
+                            <h3>
+                                Total: ₹ {calculateTotal()}
+                            </h3>
+
+                            <button
+                                className="place-order-btn"
+                                onClick={placeOrder}
+                            >
+                                Place Order
+                            </button>
+
+                        </>
+                }
+
+            </div>
 
         </div>
 

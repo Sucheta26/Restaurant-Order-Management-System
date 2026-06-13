@@ -5,6 +5,7 @@ import EmployeeLogin from "./components/EmployeeLogin";
 import CustomerSignup from "./components/CustomerSignup";
 import EmployeeSignup from "./components/EmployeeSignup";
 import MenuList from "./components/MenuList";
+import EmployeeOrders from "./components/EmployeeOrders";
 import "./App.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     });
 
     return (
+
         <div>
 
             {page === "home" &&
@@ -53,39 +55,11 @@ function App() {
             }
 
             {page === "employee-portal" &&
-                <div className="portal-container">
-
-                    <h1>Employee Portal</h1>
-
-                    <p>Coming Soon...</p>
-
-                    <div className="menu-actions">
-
-                        <button
-                            className="back-btn"
-                            onClick={() => setPage("home")}
-                        >
-                            🏠 Home
-                        </button>
-
-                        <button
-                            className="logout-btn"
-                            onClick={() => {
-
-                                localStorage.removeItem("employee");
-
-                                setPage("home");
-                            }}
-                        >
-                            🚪 Logout
-                        </button>
-
-                    </div>
-
-                </div>
+                <EmployeeOrders setPage={setPage} />
             }
 
         </div>
+
     );
 }
 
