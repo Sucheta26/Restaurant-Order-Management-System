@@ -54,15 +54,34 @@ function App() {
 
             {page === "employee-portal" &&
                 <div className="portal-container">
+
                     <h1>Employee Portal</h1>
+
                     <p>Coming Soon...</p>
 
-                    <button
-                        className="back-btn"
-                        onClick={() => setPage("home")}
-                    >
-                        Back To Home
-                    </button>
+                    <div className="menu-actions">
+
+                        <button
+                            className="back-btn"
+                            onClick={() => setPage("home")}
+                        >
+                            🏠 Home
+                        </button>
+
+                        <button
+                            className="logout-btn"
+                            onClick={() => {
+
+                                localStorage.removeItem("employee");
+
+                                setPage("home");
+                            }}
+                        >
+                            🚪 Logout
+                        </button>
+
+                    </div>
+
                 </div>
             }
 
